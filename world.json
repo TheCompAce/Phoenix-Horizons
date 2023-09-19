@@ -1,0 +1,95 @@
+{
+    "Locations": [
+    {
+        "Name": "Phoenix's Nest",
+        "Description": "The central hub of civilization, a beacon of hope amidst the ashes, offering a semblance of community and order.",
+        "Type": "UndergroundBunker",
+        "Position": {
+            "X": 0,
+            "Y": 0
+        },
+        "Image": "(Link to image for Phoenix's Nest)"
+        },
+        {
+        "Name": "The Outlands",
+        "Description": "Areas near the Radiation Zones, where survival is a daily struggle, but the opportunity for resource gathering is immense.",
+        "Type": "UndergroundBunker",
+        "Position": {
+            "X": 0,
+            "Y": 0
+        },
+        "Image": "(Link to image for The Outlands)"
+        },
+        {
+        "Name": "Forgotten Territories",
+        "Description": "Regions that are remnants of the Prisoned Land, echoing with tales of a troubled past, yet holding secrets waiting to be uncovered.",
+        "Type": "UndergroundBunker",
+        "Position": {
+            "X": 0,
+            "Y": 0
+        },
+        "Image": "(Link to image for Forgotten Territories)"
+        },
+        {
+        "Name": "Haven of Resilience",
+        "Description": "Nestled amidst the Toxic Wetlands, a place of unique challenges and opportunities, harboring individuals mastering the art of adaptation.",
+        "Type": "UndergroundBunker",
+        "Position": {
+            "X": 0,
+            "Y": 0
+        },
+        "Image": "(Link to image for Haven of Resilience)"
+        },
+      {
+        "Name": "Bunker Alpha",
+        "Description": "A secure underground bunker acting as a safe haven for survivors. Equipped with basic amenities and defensive structures.",
+        "Type": "UndergroundBunker",
+        "Position": {
+          "X": 34,
+          "Y": 64
+        },
+        "Image": "(Link to image for Bunker Alpha)"
+      },
+      {
+        "Name": "Old Military Outpost",
+        "Description": "An abandoned military base, now a battleground for control and resources. Holds strategic importance.",
+        "Type": "AbandonedMilitaryBase",
+        "Position": {
+          "X": 78,
+          "Y": 52
+        },
+        "Image": "(Link to image for Old Military Outpost)"
+      },
+      {
+        "Name": "Ruins of New York",
+        "Description": "The remains of a once bustling city, now home to scavengers and the echoes of the past.",
+        "Type": "RuinedCity",
+        "Position": {
+          "X": 45,
+          "Y": 89
+        },
+        "Image": "(Link to image for Ruins of New York)"
+      },
+      {
+        "Name": "Steel Factory Ruins",
+        "Description": "A derelict factory with old machinery and resources valuable for crafting and trade.",
+        "Type": "DerelictFactory",
+        "Position": {
+          "X": 61,
+          "Y": 33
+        },
+        "Image": "(Link to image for Steel Factory Ruins)"
+      },
+      {
+        "Name": "Research Facility Z",
+        "Description": "An abandoned research facility harboring secrets and advanced technology from the old world.",
+        "Type": "AbandonedResearchFacility",
+        "Position": {
+          "X": 22,
+          "Y": 76
+        },
+        "Image": "(Link to image for Research Facility Z)"
+      }
+    ]
+  }
+  

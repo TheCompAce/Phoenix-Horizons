@@ -1,0 +1,60 @@
+{
+    "characters": [
+        {
+            "id": "char_1",
+            "name": "Eldric",
+            "background": "A visionary leader who guides one of the surviving communities, Phoenix's Nest. His wisdom and leadership skills have been pivotal in keeping the spirit of hope alive amidst the chaos.",
+            "role_in_story": "A guiding force in the Phoenix's Nest narrative, offering missions and advice to the player.",
+            "image": "URL_or_path_to_Eldric_image"
+        },
+        {
+            "id": "char_2",
+            "name": "Aria",
+            "background": "A fierce and resilient survivor from The Outlands, Aria has mastered the art of survival in the harsh conditions of the post-apocalyptic world.",
+            "role_in_story": "A prominent figure in The Outlands narrative, possibly a mentor or ally to the player.",
+            "image": "URL_or_path_to_Aria_image"
+        },
+        {
+            "id": "char_3",
+            "name": "Finn",
+            "background": "A young and curious explorer, Finn is eager to uncover the secrets that lie in The Forgotten Territories.",
+            "role_in_story": "An ally in the Forgotten Territories narrative, offering quests to explore and discover the secrets of the land.",
+            "image": "URL_or_path_to_Finn_image"
+        },
+        {
+            "id": "char_4",
+            "name": "Lila",
+            "background": "A brilliant mind residing in The Haven of Resilience, Lila is focused on finding innovative solutions to adapt to the changing world.",
+            "role_in_story": "A key character in The Haven of Resilience narrative, offering missions to find resources and create solutions for the community.",
+            "image": "URL_or_path_to_Lila_image"
+        },
+        {
+            "id": "char_5",
+            "name": "Thane",
+            "background": "A brave individual who dares to venture into the heart of the radiation zones in the Outlands, Thane believes that the key to humanity's future lies in uncovering the secrets of the past.",
+            "role_in_story": "A catalyst in the narrative where players choose to explore the radiation zones, offering quests that involve daring expeditions and discoveries.",
+            "image": "URL_or_path_to_Thane_image"
+        },
+        {
+            "id": "char_6",
+            "name": "Seraphine",
+            "background": "A diplomat and peacemaker, Seraphine is focused on fostering alliances and collaborative efforts to rebuild the world in the Forgotten Territories.",
+            "role_in_story": "A central figure in the narrative that revolves around building alliances, offering missions that involve diplomacy and collaboration.",
+            "image": "URL_or_path_to_Seraphine_image"
+        },
+        {
+            "id": "char_7",
+            "name": "Orion",
+            "background": "An individual who has mastered the art of adaptation in the Haven of Resilience, Orion is an expert in navigating the challenges of the toxic wetlands.",
+            "role_in_story": "A mentor in the narrative where players choose to learn and adapt to the new world, guiding them through challenges and offering quests to enhance their survival skills.",
+            "image": "URL_or_path_to_Orion_image"
+        },
+        {
+            "id": "char_8",
+            "name": "Elara",
+            "background": "A community builder at the Phoenix's Nest, Elara is dedicated to fostering unity and cooperation amongst the survivors.",
+            "role_in_story": "A guiding figure in the narrative where players choose to engage with the community, offering quests that involve community building and resource management.",
+            "image": "URL_or_path_to_Elara_image"
+        }
+    ]
+}

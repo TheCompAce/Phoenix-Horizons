@@ -1,0 +1,143 @@
+{
+	"GameDetails": {
+		"Title": "Phoenix Horizons: Echoes of a Fallen World",
+		"Engine": "Godot",
+		"Story": "story.json",
+		"Character": "character.json",
+		"World": "world.json",
+		"Genre": "MMO RPG",
+		"Theme": "Post-apocalyptic",
+		"VisualStyle": "Dark yet vibrant apocalypse",
+		"Gameplay": {
+			"MainFeatures": [
+				"Open world exploration",
+				"Base building",
+				"Resource management",
+				"Skill progression",
+				"PvP and PvE elements",
+				"Dynamic events",
+				"Community-driven narratives"
+			],
+			"PlayerGoals": [
+				"Explore and reclaim the world",
+				"Develop skills and abilities",
+				"Build and expand bases",
+				"Interact with other players",
+				"Shape the world's story"
+			],
+			"Challenges": [
+				"Surviving in harsh environments",
+				"Resource scarcity",
+				"Conflict with other players",
+				"Uncovering the world's secrets"
+			]
+		},
+		"Monetization": {
+			"Primary": "In-game currency purchases",
+			"Secondary": "Cosmetic items and skins"
+		},
+		"AdditionalFeatures": [
+			"Clothing and apparel for character customization",
+			"Marketplace for trading items",
+			"Community events and updates"
+		]
+	},
+	"WorldBuilding": {
+		"RegionsAndEnvironments": {
+			"TypesOfRegions": {
+				"Scrub": "A desert-like barren land where players start, relatively safe but with limited resources.",
+				"RadiationZones": "Areas with high radiation levels requiring specific skills or gear to survive, harboring unique resources and challenges.",
+				"PrisonedLand": "Regions characterized by inhospitable conditions, possibly with remnants of prisons hinting at a troubled past.",
+				"ToxicWetlands": "Areas filled with toxic puddles and pools, offering unique resources and challenges.",
+				"AshenFields": "Lands covered in ash and soot, offering unique exploration opportunities."
+			},
+			"EnvironmentalDetails": {
+				"BurningPits": "Zones with perpetual fires, a possible result of gas leaks or other calamities.",
+				"DirtyWaterways": "Polluted rivers and lakes, a potential source for specific resources.",
+				"ToxicPuddles": "Small hazardous areas with chemical waste, offering unique resources and crafting opportunities.",
+				"RuinedHighways": "Crumbling roads filled with the wreckage of old vehicles, acting as pathways to different regions.",
+				"CollapsedBuildings": "Structures that are partially or fully collapsed, offering exploration and scavenging opportunities."
+			}
+		},
+		"PointsOfInterest": {
+			"UniqueLocations": {
+				"UndergroundBunkers": "Acts as player cities offering safety and various facilities. UBs can claim military bases for perks and control over surrounding regions.",
+				"AbandonedMilitaryBases": "Can be claimed by UBs for perks and control over surrounding regions, central to scheduled takeover events.",
+				"RuinedCities": "Main locations for story missions and resource gathering, offering varied narratives and resources.",
+				"DerelictFactories": "Locations with machinery and resources for crafting and trading.",
+				"AbandonedResearchFacilities": "Places harboring secrets and advanced technology, offering high-risk, high-reward exploration opportunities."
+			},
+			"RandomEvents": {
+				"OnRouteEncounters": "Random events during travel to keep players engaged, including encounters with NPCs, finding rare resources, or stumbling upon hidden locations.",
+				"CityExpeditions": "Special random events in ruined cities, possibly involving solving puzzles or facing unique challenges for rewards."
+			}
+		},
+		"DayNightCycleAndWeather": {
+			"WeatherEvents": {
+				"ToxicClouds": "Periodic events in certain areas requiring specific gear or abilities to navigate safely.",
+				"DustStorms": "Temporary events obscuring vision and posing navigation challenges, potentially hiding unique discoveries."
+			},
+			"CycleEffects": {
+				"DayNightSpecificMissions": "Story missions that can only be undertaken during specific times of the day, offering different challenges and narratives.",
+				"ChangingEncounters": "Different types of random encounters based on the time of day, affecting the difficulty and nature of the encounters."
+			}
+		},
+		"WorldLore": {
+			"HistoricalBackground": "The world is shrouded in mystery, with much of its history lost. The known lore speaks of a once flourishing civilization brought to its knees by an unknown catastrophe, leaving behind a world struggling to reclaim its lost glory.",
+			"CulturesAndSocieties": {
+				"NomadicGroups": "Groups that travel between regions, offering trade opportunities and story elements.",
+				"AncientCults": "Organizations holding secrets of the old world, possibly acting as allies or adversaries in story missions.",
+				"SettledCommunities": "Small communities trying to rebuild, offering unique missions and interaction opportunities."
+			}
+		}
+	},
+	"chatGPT_instruction": "The 'Story' and 'Character' keys link to files that describes further details.",
+	"chatGPT": [
+		{
+			"Date": "2023-09-12 10:00:00",
+			"SessionDetails": ["Initial project discussion and setup."],
+			"Next Steps" : []
+		},
+		{
+			"Date": "2023-09-16 06:00:25",
+			"SessionDetails": ["Developed concepts for world-building including details on regions, environments, points of interest, day-night cycle effects, and world lore."],
+			"Next Steps" : [
+				"Finalize the main storyline",
+				"Develop detailed character progression systems",
+				"Outline the main gameplay mechanics",
+				"Start sketching the user interface and experience"
+			]
+		},
+		{
+			"Date": "2023-09-17",
+			"SessionDetails": [
+				"Continued and finalized the story.json file with integration of character links.",
+				"Initiated the 'World Building' phase with discussions on geographical settings, points of interest, culture and society, and world lore based on existing data in Project.json.",
+				"Decided to document the world-building developments in a 'world.json' file in upcoming sessions."
+			],
+			"NextSteps": [
+				"Develop detailed descriptions for each section in the 'World Building' phase.",
+				"Document these details in a structured format in a 'world.json' file.",
+				"Review and refine the content to ensure a cohesive and immersive world-building experience.",
+				"Finalize the main storyline",
+				"Develop detailed character progression systems",
+				"Outline the main gameplay mechanics",
+				"Start sketching the user interface and experience"
+			]
+		}
+	],
+	"Next Steps" : {
+		"LongTermGoals": [
+			"Develop a prototype with basic gameplay elements",
+			"Create detailed world maps and location designs",
+			"Develop networking and multiplayer systems",
+			"Plan a beta testing phase to gather player feedback"
+		],
+		"IdeasToExplore": [
+			"Potential collaborations with artists for game assets",
+			"Community events and player-driven narratives",
+			"Possible expansions and additional content",
+			"Monetization strategies beyond initial plans"
+		]
+	}    
+}

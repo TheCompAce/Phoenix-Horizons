@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Actors/Avatar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scripts/Scenes/Actors/Actor.gd" type="Script" id=2]
+
+[node name="Actor" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="."]
+
+[node name="Label" type="Label" parent="KinematicBody2D"]
+margin_left = -70.0
+margin_top = 33.0
+margin_right = 71.0
+margin_bottom = 52.0
+text = "Test"
+align = 1
+valign = 1
+
+[node name="Avatar" parent="KinematicBody2D" instance=ExtResource( 1 )]

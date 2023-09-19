@@ -1,0 +1,6 @@
+twisted
+autobahn
+sqlalchemy
+bcrypt
+pyOpenSSL
+service-identity
