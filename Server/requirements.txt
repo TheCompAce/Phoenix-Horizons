@@ -1,3 +1,7 @@
+transformers
+diffusers
+accelerate
+matplotlib
 twisted
 autobahn
 sqlalchemy
