@@ -91,7 +91,7 @@
 			}
 		}
 	},
-	"chatGPT_instruction": "The 'Story' and 'Character' keys link to files that describes further details.",
+	"chatGPT_instruction": "The 'Story', 'Character', 'World' keys link to files that describes further details.",
 	"chatGPT": [
 		{
 			"Date": "2023-09-12 10:00:00",

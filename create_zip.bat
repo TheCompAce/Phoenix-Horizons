@@ -1,1 +1,1 @@
-python tools\create_zip.py -d .\ -o ph.zip -e env,__pycache__,.vscode,old,Godot,.import,.mono,Builds,Images,icon.png,icon.png.import,Resources,ph.zip,certs,.git
+python tools\create_zip.py -d .\ -o ph.zip -e env,__pycache__,.vscode,old,Godot,.import,.mono,Builds,Images,icon.png,icon.png.import,Resources,ph.zip,certs,.git,server.db

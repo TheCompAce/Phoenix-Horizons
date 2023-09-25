@@ -1,10 +1,21 @@
 transformers
 diffusers
 accelerate
+sentencepiece
+
+# mecab-python3
+# unidic-lite
+# Use "Visual Studio 2022 Developer Command Prompt"
+# and "python -m pip install TTS" to install.
+# TTS
+
 matplotlib
+
 twisted
 autobahn
 sqlalchemy
+
 bcrypt
 pyOpenSSL
 service-identity
+cryptography

@@ -22,10 +22,13 @@ func _ready():
 	add_child(_network_client)
 	_network_client.connect_to_server("127.0.0.1", 6438)
 	
-	_login_screen.connect("login", self, "_handle_login_button")
-	_login_screen.connect("register", self, "_handle_register_button")
+	# _login_screen.connect("login", self, "_handle_login_button")
+	# _login_screen.connect("register", self, "_handle_register_button")
 	
-	state = null
+	_network_client.connect("sec", self, "_handle_sec")
+	
+	#state = null
+	state = funcref(self, "SEC")
 
 func _handle_client_connected():
 	print("Client connected to server!")
@@ -35,8 +38,8 @@ func _handle_client_disconnected(was_clean: bool):
 	get_tree().quit()
 	
 func _handle_network_data(data: String):
-	print("Received server data: ", data)
-	var action_payloads: Array = Packet.json_to_action_payloads(data)
+	# print("Received server data: ", data)
+	var action_payloads: Array = Packet.json_to_action_payloads(data, _network_client.get_server_public_key())
 	var p: Packet = Packet.new(action_payloads[1], action_payloads[2])
 	
 	# Pass the packet to our current state
@@ -51,6 +54,19 @@ func _unhandled_input(event):
 		_player_actor._player_target = target
 		var p: Packet = Packet.new("Action.Target", [target.x, target.y])
 		_network_client.send_packet(p)
+
+func SEC(p):
+	print("p.actionOK")
+	match p.action:
+		"Action.Sec":
+			print("OK")
+		
+	
+func _handle_sec(server_public_key: String, client_private_key: String, client_public_key: String):
+	print("p.actionOK7")
+	state = funcref(self, "LOGIN")
+	var p: Packet = Packet.new("Action.Sec", [client_public_key])
+	_network_client.send_packet(p)
 
 func LOGIN(p):
 	print(p.action)
