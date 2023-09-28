@@ -56,27 +56,46 @@ def create_openai_message_object(text):
 
 
 def generate_deci_response(prompt, settings, max_new_tokens=4096, do_sample=True, top_p=0.95, early_stopping=True, num_beams=5, device = "cuda"):
-      # for GPU usage or "cpu" for CPU usage
+    # for GPU usage or "cpu" for CPU usage
 
     settings["tokenizer"].add_special_tokens({'pad_token': '[PAD]'})  
+
     # Tokenize the prompt and send it to the device
-    inputs = settings["tokenizer"].encode(prompt, return_tensors="pt", padding=True, truncation=True).to(device)
+    inputs = settings["tokenizer"](prompt, return_tensors="pt", padding=True, truncation=True)
     
+    if torch.cuda.is_available():
+        # inputs = {key: val.to('cuda') for key, val in inputs.items()}
+        inputs = {key: val.to(settings["device"]) for key, val in inputs.items()}
+
+    # Extract the input_ids and attention_mask
+    input_ids = inputs['input_ids']  # Already on device
+    attention_mask = inputs['attention_mask']  # Already on device
+
     # Generate text using the model
-    outputs = settings["model"].generate(inputs, max_length=max_new_tokens, do_sample=do_sample, top_p=top_p, early_stopping=early_stopping, num_beams=num_beams)
+    outputs = settings["model"].generate(input_ids,  do_sample=do_sample, top_p=top_p, attention_mask=attention_mask, early_stopping=early_stopping, num_beams=num_beams)
     
     # Decode the output tensor to text
     return settings["tokenizer"].decode(outputs[0], skip_special_tokens=True)
 
+
 def generate_stabilityai_response(prompt, settings, max_new_tokens=4096, do_sample=True, top_p=0.95, top_k=0):
-    # system_prompt = "### System:\nYou are StableBeluga, an AI that follows instructions extremely well. Help as much as you can. Remember, be safe, and don't do anything illegal.\n\n"
-
-    # message = "Write me a poem please"
-    # prompt = f"{system_prompt}### User: {prompt}\n\n### Assistant:\n"
+    # Prepare inputs for the model
     inputs = settings["tokenizer"](prompt, return_tensors="pt").to(settings["device"])
+    
+    # Move inputs to GPU if available
+    if torch.cuda.is_available():
+        inputs = {key: val.to(settings["device"]) for key, val in inputs.items()}
+    
+    # Remove the attention_mask from inputs if it exists
+    if 'attention_mask' in inputs:
+        del inputs['attention_mask']
+    
+    # Generate output using the model
     output = settings["model"].generate(**inputs, do_sample=do_sample, top_p=top_p, top_k=top_k, max_new_tokens=max_new_tokens)
-
+    
+    # Decode and return the output
     return settings["tokenizer"].decode(output[0], skip_special_tokens=True)
+
 
 def generate_marx_response(prompt, settings, max_new_tokens=2048, do_sample=True, top_p=0.95, top_k=0): 
     input_ids = settings["tokenizer"](prompt, return_tensors="pt").input_ids
@@ -87,6 +106,11 @@ def generate_marx_response(prompt, settings, max_new_tokens=2048, do_sample=True
     #    print(param.device)
 
     inputs = settings["tokenizer"](prompt, return_tensors="pt", legacy=False).to(settings["device"])
+    # Move inputs to GPU if available
+    if torch.cuda.is_available():
+        # inputs = {key: val.to('cuda') for key, val in inputs.items()}
+        inputs = {key: val.to(settings["device"]) for key, val in inputs.items()}
+
     output = settings["model"].generate(**inputs, do_sample=do_sample, top_p=top_p, top_k=top_k, max_new_tokens=max_new_tokens)
 
     return settings["tokenizer"].decode(output[0], skip_special_tokens=True)
@@ -117,15 +141,15 @@ def generate_chatglm_6b_response(prompt, settings, history =[], max_new_tokens=2
 
     return json.dumps(response_out)
 
-def generate_gpt2_response(prompt, settings, max_new_tokens=512, do_sample=True, top_p=0.95, top_k=0, device = "cuda", num_return_sequences=1):
+def generate_gpt2_response(prompt, settings, max_new_tokens=512, do_sample=True, top_p=0.95, top_k=0, device="cuda", num_return_sequences=1):
     settings["tokenizer"].add_special_tokens({'pad_token': '[PAD]'})    
     
     # Tokenize the input and get attention mask
     encoded_input = settings["tokenizer"](prompt, return_tensors='pt', padding=True, truncation=True)
     
     # Extract the input_ids and attention_mask
-    input_ids = encoded_input['input_ids']
-    attention_mask = encoded_input['attention_mask']
+    input_ids = encoded_input['input_ids'].to(device)  # Move to device
+    attention_mask = encoded_input['attention_mask'].to(device)  # Move to device
 
     # Generate model output
     output_data = settings["model"].generate(input_ids, top_p=top_p, do_sample=True, attention_mask=attention_mask, max_length=max_new_tokens)
@@ -133,6 +157,7 @@ def generate_gpt2_response(prompt, settings, max_new_tokens=512, do_sample=True,
     output = settings["tokenizer"].decode(output_data[0], skip_special_tokens=True)
 
     return output
+
 
 
 def generate_gptj_response(prompt, settings, history =[], max_new_tokens=2048, do_sample=True, top_p=0.95, top_k=0, device = "cuda", num_return_sequences=1):
@@ -151,8 +176,42 @@ def generate_gptj_response(prompt, settings, history =[], max_new_tokens=2048, d
     output = settings["tokenizer"].decode(output_data[0], skip_special_tokens=True)
 
     return output
-    
 
+def generate_mistral_response(prompt, settings, history =[], max_new_tokens=2048, do_sample=True, top_p=0.95, top_k=0, device = "cuda", num_return_sequences=1):
+    messages = []
+    # Search for the system, human, and response sections in the text
+    system_start = prompt.find("### SYSTEM:")
+    human_start = prompt.find("### HUMAN:") if prompt.find("### HUMAN:") != -1 else prompt.find("### USER:")
+    response_start = prompt.find("### RESPONSE:")
+    
+    # If both system and human sections are found, extract the content
+    if system_start != -1 and human_start != -1:
+        system_content = prompt[system_start + 11: human_start].strip()
+        human_content = prompt[human_start + 11: response_start if response_start != -1 else None].strip()
+        
+        messages.append({"role": "system", "content": system_content})
+        messages.append({"role": "user", "content": human_content})
+    else:
+        # If the system section is not found, just use the whole text as the user content
+        messages.append({"role": "user", "content": prompt.strip()})
+
+
+    encodeds = settings["tokenizer"].apply_chat_template(messages, return_tensors="pt")
+
+    model_inputs = encodeds.to(device)
+    settings["model"].to(device)
+
+    generated_ids = settings["model"].generate(model_inputs, max_new_tokens=1000, do_sample=True)
+    output = settings["tokenizer"].batch_decode(generated_ids)
+    
+    return output
+
+def unload_gpu(settings):
+    del settings["model"]
+    del settings["tokenizer"]
+    if "pipeline" in settings:
+        del settings["pipeline"]
+    torch.cuda.empty_cache()
 
 def setup_model(model_base = "Deci"):
     checkpoint = ""
@@ -166,8 +225,13 @@ def setup_model(model_base = "Deci"):
         device = "cuda"  # for GPU usage or "cpu" for CPU usage
 
         tokenizer = AutoTokenizer.from_pretrained("stabilityai/StableBeluga-7B", use_fast=False)
-        model = AutoModelForCausalLM.from_pretrained("stabilityai/StableBeluga-7B", torch_dtype=torch.float16, low_cpu_mem_usage=True, device_map="auto")
-        model = model.to(device)
+        model = AutoModelForCausalLM.from_pretrained("stabilityai/StableBeluga-7B", torch_dtype=torch.float16, low_cpu_mem_usage=True)
+
+        # Explicitly moving model to GPU if available
+        if torch.cuda.is_available():
+            if torch.cuda.get_device_capability()[0] >= 7:
+                model = model.half()
+            model = model.to(device)
     elif model_base == "Marx":
         checkpoint = "acrastt/Marx-3B-V2"
         device = "cuda"  # for GPU usage or "cpu" for CPU usage
@@ -176,6 +240,12 @@ def setup_model(model_base = "Deci"):
         model = LlamaForCausalLM.from_pretrained(
             checkpoint, torch_dtype=torch.float16, low_cpu_mem_usage=True, device_map=device
         )
+
+        if torch.cuda.is_available():
+            if torch.cuda.get_device_capability()[0] >= 7:
+                model = model.half()
+            model = model.to(device)
+
     elif model_base == "falcon-1b":
         checkpoint = "euclaise/falcon_1b_stage2"
         device = "cuda"  # for GPU usage or "cpu" for CPU usage
@@ -194,6 +264,10 @@ def setup_model(model_base = "Deci"):
 
         tokenizer = AutoTokenizer.from_pretrained(checkpoint, trust_remote_code=True)
         model = AutoModel.from_pretrained(checkpoint, trust_remote_code=True).half().cuda()
+        
+        if torch.cuda.is_available():
+            model = model.to(device)
+
         model = model.eval()
     elif model_base == "gpt2":
         checkpoint = "gpt2"
@@ -201,6 +275,12 @@ def setup_model(model_base = "Deci"):
 
         tokenizer = GPT2Tokenizer.from_pretrained(checkpoint)
         model = GPT2LMHeadModel.from_pretrained(checkpoint)
+        # Explicitly moving model to GPU if available
+        if torch.cuda.is_available():
+            if torch.cuda.get_device_capability()[0] >= 7:
+                model = model.half()
+            model = model.to(device)
+
     elif model_base == "gpt3" or model_base == "gpt4":
         checkpoint = model_base
     elif model_base == "GPT-J":
@@ -209,13 +289,35 @@ def setup_model(model_base = "Deci"):
 
         tokenizer = AutoTokenizer.from_pretrained(checkpoint)
         model = AutoModelForCausalLM.from_pretrained(checkpoint)
+        # Explicitly moving model to GPU if available
+        if torch.cuda.is_available():
+            if torch.cuda.get_device_capability()[0] >= 7:
+                model = model.half()
+            model = model.to(device)
+            
+
         model = model.eval()
+    elif model_base == "Mistral":
+        checkpoint = "mistralai/Mistral-7B-v0.1"
+        device = "cuda"
+
+        model = AutoModelForCausalLM.from_pretrained(checkpoint)
+        tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+        
+        # Explicitly moving model to GPU if available
+        if torch.cuda.is_available():
+            if torch.cuda.get_device_capability()[0] >= 7:
+                model = model.half()
     else:
         checkpoint = "Deci/DeciLM-6b"
         device = "cuda"  # for GPU usage or "cpu" for CPU usage
         tokenizer = AutoTokenizer.from_pretrained(checkpoint)
         model = AutoModelForCausalLM.from_pretrained(checkpoint, torch_dtype=torch.bfloat16, trust_remote_code=True).to(device)
-    pass
+        # Explicitly moving model to GPU if available
+        if torch.cuda.is_available():
+            if torch.cuda.get_device_capability()[0] >= 7:
+                model = model.half()
+            model = model.to(device)
 
     settings = {
         "checkpoint" : checkpoint,
@@ -267,6 +369,9 @@ def generate_response(prompt, model_base = "Deci", max_new_tokens=1024, response
         elif model_base == "GPT-J":
             # https://huggingface.co/EleutherAI/gpt-j-6b
             resp = generate_gptj_response(prompt, settings, max_new_tokens=max_new_tokens)
+        elif model_base == "Mistral":
+            # https://huggingface.co/EleutherAI/gpt-j-6b
+            resp = generate_mistral_response(prompt, settings, max_new_tokens=max_new_tokens)
         else:
             resp = generate_deci_response(prompt, settings, max_new_tokens=max_new_tokens)
         time_length = time.time() - start_time
@@ -278,12 +383,14 @@ def generate_response(prompt, model_base = "Deci", max_new_tokens=1024, response
         }
         ret_resp.append(data)
 
+    unload_gpu(settings)
+
     return ret_resp
 
 def TestModels(prompt, max_new_tokens=1024, api_key=None):
     print("Testing models...")
     results =[]
-    for model_base in ["gpt2", "Marx", "ChatGLM", "Deci", "stabilityai"]: # , "falcon-1b", "GPT-J", "gpt3", "gpt4",
+    for model_base in ["Mistral","gpt2",  "stabilityai", "falcon-1b", "Deci", "Marx", "ChatGLM"]: #  "GPT-J", "gpt3", "gpt4"]:
         print(f"Testing {model_base}...")
         start_time = time.time()
         responses = generate_response(prompt, model_base, max_new_tokens=max_new_tokens, responses=2, api_key=api_key)
@@ -359,8 +466,8 @@ if __name__ == "__main__":
 
     time_length = 0
     
-    # TestModels(args.prompt, args.size, args.openai_key)
-    loop_generate_response(args.prompt, model_name=args.model, api_key=args.openai_key, max_new_tokens=args.size)
+    TestModels(args.prompt, args.size, args.openai_key)
+    # loop_generate_response(args.prompt, model_name=args.model, api_key=args.openai_key, max_new_tokens=args.size)
 
 """     start_time = time.time()
         responses = generate_response(args.prompt, args.model, max_new_tokens=args.size, responses=args.responses)

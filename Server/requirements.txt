@@ -9,7 +9,11 @@ sentencepiece
 # and "python -m pip install TTS" to install.
 # TTS
 
+soundfile
+
 matplotlib
+wordcloud
+scipy
 
 twisted
 autobahn

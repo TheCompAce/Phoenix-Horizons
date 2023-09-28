@@ -18,6 +18,7 @@ call env\Scripts\activate
 
 echo Installing dependencies...
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118  | find /V "already satisfied"
+pip install git+https://github.com/huggingface/transformers | find /V "already satisfied"
 pip install -r requirements.txt | find /V "already satisfied"
 
 echo Running service...
